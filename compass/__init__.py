@@ -1,7 +1,7 @@
 import yaml
 from .compass import *  # noqa: F403
 
-datadir = "COMPASS/data/Imager"  # assume that we are on ERDA
+datadir = "../COMPASS/Reduced/Imager/"  # assume that we are on ERDA
 erda = True
 try:
     with open("config.yaml") as f:
