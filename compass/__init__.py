@@ -1,5 +1,6 @@
 import yaml
 from .compass import *  # noqa: F403
+from .positions import *  # noqa: F403
 
 datadir = "../COMPASS/Reduced/Imager/"  # assume that we are on ERDA
 erda = True
