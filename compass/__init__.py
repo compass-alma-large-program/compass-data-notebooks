@@ -1,8 +1,11 @@
 import yaml
+import os.path
 from .compass import *  # noqa: F403
 from .positions import *  # noqa: F403
 
-datadir = "../COMPASS/Reduced/Imager/"  # assume that we are on ERDA
+datadir = os.path.expanduser(
+    "~/work/COMPASS/Reduced/Imager/"
+)  # assume that we are on ERDA
 erda = True
 try:
     with open("config.yaml") as f:
