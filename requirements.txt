@@ -1,4 +1,5 @@
 astropy
+ipympl
 pre-commit
 radio_beam
 spectral_cube
