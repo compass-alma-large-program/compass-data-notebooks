@@ -3,12 +3,14 @@ Utility functions for COMPASS data
 
 """
 
+import numpy as np
 from astropy.io import fits
 from astropy.table import QTable
 from astropy import units as u
+from .primary_beam import alma_primary_beam
 
 
-def extract_spectrum_from_cube(cube, position):
+def extract_spectrum_from_cube(cube, position, primary_beam_correction=False):
     """
     Extract a spectrum from a cube.
 
@@ -18,6 +20,8 @@ def extract_spectrum_from_cube(cube, position):
         The cube to extract from.
     position : SkyCoord
         The position to extract from.
+    primary_beam_correction : bool
+        Apply the primary beam correction.
 
     Returns
     -------
@@ -34,6 +38,27 @@ def extract_spectrum_from_cube(cube, position):
         spectrum = cube[:, dec, ra]
     except IndexError:
         raise IndexError("Position is outside the cube.")
+
+    # Apply the primary beam correction.
+    if primary_beam_correction:
+        ra0, dec0 = (
+            cube.header["RA"] * u.deg,
+            cube.header["DEC"] * u.deg,
+        )  # phase center
+        theta = (
+            np.sqrt(
+                ((position.ra - ra0) * np.cos(dec0)) ** 2 + (position.dec - dec0) ** 2
+            )
+            .to(u.arcsec)
+            .value
+        )  # offset from the phase center
+        freq = (cube.wcs.wcs.restfrq * u.Hz).to(u.GHz).value
+        pb = alma_primary_beam(theta, freq)
+        # Debug
+        print("Offset from phase center: ", theta)
+        print("Primary beam: ", pb)
+
+        spectrum = spectrum / pb
 
     return spectrum
 
