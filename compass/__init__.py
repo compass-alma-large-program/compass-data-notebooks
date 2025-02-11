@@ -2,6 +2,7 @@ import yaml
 import os.path
 from .compass import *  # noqa: F403
 from .positions import *  # noqa: F403
+from .primary_beam import apply_primary_beam_correction  # noqa: F401
 
 datadir = os.path.expanduser(
     "~/work/COMPASS/Reduced/Imager/"
