@@ -5,7 +5,7 @@ from .positions import *  # noqa: F403
 from .primary_beam import apply_primary_beam_correction  # noqa: F401
 
 datadir = os.path.expanduser(
-    "~/work/COMPASS/Reduced/Imager/"
+    "~/work/COMPASS/Reduced/Imager.contsub/"
 )  # assume that we are on ERDA
 erda = True
 try:
