@@ -120,11 +120,8 @@ def apply_primary_beam_correction(cube, threshold=0.2):
 
     # Apply the primary beam correction
     cube = cube.with_mask(pb > threshold)
-    # FIXME: This would be more efficient if we could use this, but it does not work
-    # See: https://github.com/radio-astro-tools/spectral-cube/issues/939
-    # cube.apply_numpy_function(np.divide, cube, pb, reduce=False)
     cube.allow_huge_operations = True
-    cube = cube / pb
+    cube = cube / pb.astype(cube._data.dtype)  # keep the same type
 
     return cube
 
